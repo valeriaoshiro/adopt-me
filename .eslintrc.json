@@ -9,9 +9,11 @@
   ],
   "rules": {
     "react/prop-types": 0,
-    "no-console": 1
+    "no-console": 1,
+    "react-hooks/rules-of-hooks": 2,
+    "react-hook/exhaustive-deps": 1
   },
-  "plugins": ["react", "import", "jsx-a11y"],
+  "plugins": ["react", "import", "jsx-a11y", "react-hooks"],
   "parcerOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module",
