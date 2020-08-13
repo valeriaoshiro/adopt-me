@@ -1,0 +1,16 @@
+{
+    "extends": ["eslint:recommended", "prettier", "prettier/react"],
+    "plugins": [],
+    "parcerOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module",
+        "ecmaFeatues": {
+            "jsx": true
+        }
+    },
+    "env": {
+        "es6": true,
+        "browser": true,
+        "node": true
+    }
+}
