@@ -2,6 +2,7 @@ import React from "react";
 import pet from "@frontendmasters/pet";
 import Carousel from "./Carousel";
 import ErrorBoundary from "./ErrorBoundary";
+import ThemeContext from "./ThemeContext";
 
 class Details extends React.Component {
   constructor() {
@@ -37,7 +38,13 @@ class Details extends React.Component {
         <div>
           <h1>{name}</h1>
           <h2>{`${animal} - ${breed} - ${location}`}</h2>
-          <button>Adopt {name}</button>
+          <ThemeContext.Consumer>
+            {([theme]) => {
+              return (
+                <button style={{ background: theme }}>Adopt {name}</button>
+              );
+            }}
+          </ThemeContext.Consumer>
           <p>{description}</p>
         </div>
       </div>
