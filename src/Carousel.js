@@ -9,19 +9,23 @@ class Carousel extends React.Component {
     };
     this.handleIndexClick = this.handleIndexClick.bind(this);
   }
+
   static getDerivedStateFromProps({ media }) {
     let photos = ["http://placecorgi.com/600/600"];
+
     if (media.length) {
       photos = media.map(({ large }) => large);
     }
 
     return { photos };
   }
+
   handleIndexClick(event) {
     this.setState({
       active: Number(event.target.dataset.index),
     });
   }
+
   render() {
     const { photos, active } = this.state;
     return (
