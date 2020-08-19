@@ -4,17 +4,16 @@ import Carousel from "./Carousel";
 import ErrorBoundary from "./ErrorBoundary";
 import ThemeContext from "./ThemeContext";
 import Modal from "./Modal";
-import { navigate } from "@reach/router";
 
 class Details extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = { loading: true, showModal: false };
   }
 
   componentDidMount() {
     pet
-      .animal(Number(this.props.id))
+      .animal(Number(this.props.match.params.id))
       .then(({ animal }) => {
         this.setState({
           name: animal.name,
@@ -27,16 +26,26 @@ class Details extends React.Component {
           url: animal.url,
         });
       })
-      .catch((err) => this.setState({ error: err }));
+      .catch((err) => {
+        this.setState({ error: err, loading: false });
+      });
   }
 
-  toggleModal = () => this.setState({ showModal: !this.state.showModal });
+  adopt = () => {
+    window.location = this.state.url;
+  };
 
-  adopt = () => navigate(this.state.url);
+  toggleModal = () => {
+    return this.setState({ showModal: !this.state.showModal });
+  };
 
   render() {
     if (this.state.loading) {
-      return <h1>loading ...</h1>;
+      return <h2>loading ...</h2>;
+    }
+
+    if (this.state.error) {
+      return <h2>Pet not found</h2>;
     }
 
     const {
@@ -88,6 +97,7 @@ class Details extends React.Component {
 export default function DetailsWithErrorBoundary(props) {
   return (
     <ErrorBoundary>
+      {console.log(props)}
       <Details {...props} />
     </ErrorBoundary>
   );

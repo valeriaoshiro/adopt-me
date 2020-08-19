@@ -7,7 +7,7 @@ Updated on August 18, 2020
 - JSX format
 - Hooks
 - useEffect
-- Reach React
+- React Router
 - Class component
 - Error Boundary
 - Context

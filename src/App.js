@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { render } from "react-dom";
 import SearchParams from "./SearchParams";
-import { Router, Link } from "@reach/router";
+import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import Details from "./Details";
 import ThemeContext from "./ThemeContext";
 
@@ -11,12 +11,12 @@ const App = () => {
     <React.StrictMode>
       <ThemeContext.Provider value={themeHook}>
         <div>
-          <header>
-            <Link to="/">Adopt Me!</Link>
-          </header>
-          <Router>
-            <SearchParams path="/" />
-            <Details path="details/:id" />
+          <Router basename="/adopt-me">
+            <header>
+              <Link to="/">Adopt Me!</Link>
+            </header>
+            <Route exact={true} path="/" component={SearchParams} />
+            <Route exact={true} path="/details/:id" component={Details} />
           </Router>
         </div>
       </ThemeContext.Provider>

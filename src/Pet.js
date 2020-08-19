@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "@reach/router";
+import { Link } from "react-router-dom";
 
 export default function Pet({ name, animal, breed, media, location, id }) {
   let hero = "http://placecorgi.com/300/300";

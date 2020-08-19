@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect, Link } from "@reach/router";
+import { Redirect, Link } from "react-router-dom";
 
 class ErrorBoundary extends React.Component {
   constructor() {
@@ -33,10 +33,10 @@ class ErrorBoundary extends React.Component {
 
     if (this.state.hasError) {
       return (
-        <h1>
+        <h2>
           There was an error with this listing. <Link to="/">Click here</Link>{" "}
           to go back to the home page or wait five secons
-        </h1>
+        </h2>
       );
     }
 
