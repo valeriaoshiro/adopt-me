@@ -34310,25 +34310,36 @@ const SearchParams = () => {
       location,
       breed,
       type: animal
-    }).then(resp => {
-      setPets(resp.data.animals);
+    }).then(({
+      data: {
+        animals
+      }
+    }) => {
+      setPets(animals);
     });
   }
 
   (0, _react.useEffect)(() => {
-    petFinder.animalData.types().then(resp => {
-      let types = [];
-      resp.data.types.forEach(pet => {
-        types.push(pet.name);
-      });
-      setAnimalType(types);
+    petFinder.animalData.types().then(({
+      data: {
+        types
+      }
+    }) => {
+      let x = types.map(({
+        name
+      }) => name);
+      setAnimalType(x);
     });
   }, []);
   (0, _react.useEffect)(() => {
     setBreeds([]);
     setBreed("");
-    petFinder.animalData.breeds(animal).then(resp => {
-      const breedStrings = resp.data.breeds.map(({
+    petFinder.animalData.breeds(animal).then(({
+      data: {
+        breeds
+      }
+    }) => {
+      const breedStrings = breeds.map(({
         name
       }) => name);
       setBreeds(breedStrings);
@@ -34598,17 +34609,19 @@ class Details extends _react.default.Component {
       secret: "LI0fUpCMkzQcF7JYO4HsZFMD1r4mtsa8qkYbNtQF"
     });
     petFinder.animal.show(Number(this.props.match.params.id)).then(({
-      data
+      data: {
+        animal
+      }
     }) => {
       this.setState({
-        name: data.animal.name,
-        animal: data.animal.type,
-        location: `${data.animal.contact.address.city}, ${data.animal.contact.address.state}`,
-        description: data.animal.description,
-        media: data.animal.photos,
-        breed: data.animal.breeds.primary,
+        name: animal.name,
+        animal: animal.type,
+        location: `${animal.contact.address.city}, ${animal.contact.address.state}`,
+        description: animal.description,
+        media: animal.photos,
+        breed: animal.breeds.primary,
         loading: false,
-        url: data.animal.url
+        url: animal.url
       });
     }).catch(err => {
       this.setState({
@@ -34730,7 +34743,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59725" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61892" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
