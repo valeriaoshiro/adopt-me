@@ -18,16 +18,16 @@ class Details extends React.Component {
 
     petFinder.animal
       .show(Number(this.props.match.params.id))
-      .then(({ data }) => {
+      .then(({ data: { animal } }) => {
         this.setState({
-          name: data.animal.name,
-          animal: data.animal.type,
-          location: `${data.animal.contact.address.city}, ${data.animal.contact.address.state}`,
-          description: data.animal.description,
-          media: data.animal.photos,
-          breed: data.animal.breeds.primary,
+          name: animal.name,
+          animal: animal.type,
+          location: `${animal.contact.address.city}, ${animal.contact.address.state}`,
+          description: animal.description,
+          media: animal.photos,
+          breed: animal.breeds.primary,
           loading: false,
-          url: data.animal.url,
+          url: animal.url,
         });
       })
       .catch((err) => {

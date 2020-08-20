@@ -24,18 +24,15 @@ const SearchParams = () => {
         breed,
         type: animal,
       })
-      .then((resp) => {
-        setPets(resp.data.animals);
+      .then(({ data: { animals } }) => {
+        setPets(animals);
       });
   }
 
   useEffect(() => {
-    petFinder.animalData.types().then((resp) => {
-      let types = [];
-      resp.data.types.forEach((pet) => {
-        types.push(pet.name);
-      });
-      setAnimalType(types);
+    petFinder.animalData.types().then(({ data: { types } }) => {
+      let x = types.map(({ name }) => name);
+      setAnimalType(x);
     });
   }, []);
 
@@ -43,8 +40,8 @@ const SearchParams = () => {
     setBreeds([]);
     setBreed("");
 
-    petFinder.animalData.breeds(animal).then((resp) => {
-      const breedStrings = resp.data.breeds.map(({ name }) => name);
+    petFinder.animalData.breeds(animal).then(({ data: { breeds } }) => {
+      const breedStrings = breeds.map(({ name }) => name);
       setBreeds(breedStrings);
     }, console.error);
   }, [animal, setBreed, setBreeds]);
