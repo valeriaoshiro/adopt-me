@@ -1,29 +1,33 @@
 import React from "react";
-import pet from "@frontendmasters/pet";
 import Carousel from "./Carousel";
 import ErrorBoundary from "./ErrorBoundary";
 import ThemeContext from "./ThemeContext";
 import Modal from "./Modal";
+import { Client } from "@petfinder/petfinder-js";
 
 class Details extends React.Component {
   constructor(props) {
     super(props);
     this.state = { loading: true, showModal: false };
   }
-
   componentDidMount() {
-    pet
-      .animal(Number(this.props.match.params.id))
-      .then(({ animal }) => {
+    let petFinder = new Client({
+      apiKey: process.env.REACT_APP_PET_FINDER_API_KEY,
+      secret: process.env.REACT_APP_PET_FINDER_SECRET,
+    });
+
+    petFinder.animal
+      .show(Number(this.props.match.params.id))
+      .then(({ data }) => {
         this.setState({
-          name: animal.name,
-          animal: animal.type,
-          location: `${animal.contact.address.city}, ${animal.contact.address.state}`,
-          description: animal.description,
-          media: animal.photos,
-          breed: animal.breeds.primary,
+          name: data.animal.name,
+          animal: data.animal.type,
+          location: `${data.animal.contact.address.city}, ${data.animal.contact.address.state}`,
+          description: data.animal.description,
+          media: data.animal.photos,
+          breed: data.animal.breeds.primary,
           loading: false,
-          url: animal.url,
+          url: data.animal.url,
         });
       })
       .catch((err) => {
@@ -97,7 +101,6 @@ class Details extends React.Component {
 export default function DetailsWithErrorBoundary(props) {
   return (
     <ErrorBoundary>
-      {console.log(props)}
       <Details {...props} />
     </ErrorBoundary>
   );

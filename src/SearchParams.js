@@ -1,34 +1,50 @@
 import React, { useState, useEffect, useContext } from "react";
-import pet, { ANIMALS } from "@frontendmasters/pet";
 import Results from "./Results";
 import useDropdown from "./useDropdown";
 import ThemeContext from "./ThemeContext";
+import { Client } from "@petfinder/petfinder-js";
 
 const SearchParams = () => {
-  const [location, setLocation] = useState("Seattle, WA");
+  const [location, setLocation] = useState("Los Angeles, CA");
+  const [animalType, setAnimalType] = useState([]);
   const [breeds, setBreeds] = useState([]);
-  const [animal, AnimalDropdown] = useDropdown("Animal", "dog", ANIMALS);
+  const [animal, AnimalDropdown] = useDropdown("Animal", "dog", animalType);
   const [breed, BreedDropdown, setBreed] = useDropdown("Breed", "", breeds);
   const [pets, setPets] = useState([]);
   const [theme, setTheme] = useContext(ThemeContext);
+  let petFinder = new Client({
+    apiKey: process.env.REACT_APP_PET_FINDER_API_KEY,
+    secret: process.env.REACT_APP_PET_FINDER_SECRET,
+  });
 
   async function requestPets() {
-    const { animals } = await pet.animals({
-      location,
-      breed,
-      type: animal,
-    });
-
-    setPets(animals || []);
-    console.log("after setting pets", pets);
+    petFinder.animal
+      .search({
+        location,
+        breed,
+        type: animal,
+      })
+      .then((resp) => {
+        setPets(resp.data.animals);
+      });
   }
+
+  useEffect(() => {
+    petFinder.animalData.types().then((resp) => {
+      let types = [];
+      resp.data.types.forEach((pet) => {
+        types.push(pet.name);
+      });
+      setAnimalType(types);
+    });
+  }, []);
 
   useEffect(() => {
     setBreeds([]);
     setBreed("");
 
-    pet.breeds(animal).then(({ breeds }) => {
-      const breedStrings = breeds.map(({ name }) => name);
+    petFinder.animalData.breeds(animal).then((resp) => {
+      const breedStrings = resp.data.breeds.map(({ name }) => name);
       setBreeds(breedStrings);
     }, console.error);
   }, [animal, setBreed, setBreeds]);

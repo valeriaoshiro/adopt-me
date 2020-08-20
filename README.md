@@ -12,6 +12,7 @@ Updated on August 18, 2020
 - Error Boundary
 - Context
 - Modal with Portal
+- PetFinder API
 
 ### Notes
 
